@@ -100,7 +100,7 @@ void zmiana_wartosci(int &a,int &b)
 double pierwiastek_kwadratowy(int iteracje,float S)
 {
     if (S <= 0) return 0;
-    double xn = S / 2.0; // Pierwsze przybliżenie
+    double xn = S / 2.0;
 
     for (int i = 0; i < iteracje; i++) {
         xn = 0.5 * (xn + (S / xn));

@@ -8,7 +8,7 @@ using namespace std;
 int main()
 {
     int ilosc_gwiazdek;
-    cout << "Program rozmieszczajacy wzory w zaleznosci od ilosci gwiazdek " << endl;
+    cout << "Program rozmieszczajacy wzory w zaleznosci od ilosci gwiazdekProgram rozmieszczajacy wzory w zaleznosci od ilosci gwiazdek " << endl;
     cout << "Podaj ilosc gwiazdek: ";
     cin >> ilosc_gwiazdek;
     if (ilosc_gwiazdek <= 0) {

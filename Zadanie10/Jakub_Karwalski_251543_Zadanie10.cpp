@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <iomanip>
 #include <string>
 #include <cstring>
 
@@ -28,48 +27,56 @@ struct Ksiazka
 int main()
 {
     Ksiazka ksiazki[10];
-    fstream plik;
-    while(true)
-    {
-        plik.open("ksiazki.txt", ios::in);
-        if(plik.good() == true)
-        {
-            for(int i = 0; i < ILOSC_KSIAZEK; i++)
-            {
-                string temp;
+    ifstream plik("ksiazki.txt");
 
-                //Tytul
-                plik.getline(ksiazki[i].tytul, sizeof(ksiazki[i].tytul));
+    if (!plik.is_open()) {
+        cout << "Blad: Nie udalo sie otworzyc pliku 'ksiazki.txt'!" << endl;
+        return 1;
+    }
 
-                //Rok wydania
-                getline(plik, temp);
-                ksiazki[i].rok_wydania = stoi(temp);
+    int wczytane = 0;
+    string temp;
 
-                //Rodzaj
-                plik.getline(ksiazki[i].rodzaj, sizeof(ksiazki[i].rodzaj));
+    // Petla wczytuje dane dopóki plik się nie skończy LUB nie osiągniemy limitu tablicy
+    while (wczytane < ILOSC_KSIAZEK && !plik.eof()) {
 
-                //Nazwisko autora
-                plik.getline(ksiazki[i].autor.nazwisko, sizeof(ksiazki[i].autor.nazwisko));
-
-                //Rok urodzenia
-                getline(plik, temp);
-                ksiazki[i].autor.rok_urodzenia = stoi(temp);
-
-                //Pusta linia
-                getline(plik, temp);
-
-
-            }
-
-            plik.close();
+        // Próba wczytania pierwszej linii (tytułu)
+        if (!plik.getline(ksiazki[wczytane].tytul, sizeof(ksiazki[wczytane].tytul))) {
+            break; // Wyjdz, jeśli nie ma więcej danych
         }
 
+        try {
+            // Rok wydania
+            getline(plik, temp);
+            if (!temp.empty()) ksiazki[wczytane].rok_wydania = stoi(temp);
 
-        else
-        {
-            cout << endl << "Nie udalo sie wczytac pliku.";
-            return 0;
+            // Rodzaj
+            plik.getline(ksiazki[wczytane].rodzaj, sizeof(ksiazki[wczytane].rodzaj));
+
+            // Nazwisko autora
+            plik.getline(ksiazki[wczytane].autor.nazwisko, sizeof(ksiazki[wczytane].autor.nazwisko));
+
+            // Rok urodzenia
+            getline(plik, temp);
+            if (!temp.empty()) ksiazki[wczytane].autor.rok_urodzenia = stoi(temp);
+
+            // Pusta linia separatora
+            getline(plik, temp);
+
+            wczytane++;
+        }
+        catch (const exception& e) {
+            cout << "Blad formatu danych w rekordzie nr " << wczytane + 1 << endl;
+            break;
         }
     }
+
+    plik.close();
+
+    cout << "Pomyslnie wczytano " << wczytane << " ksiazek:" << endl;
+    for (int i = 0; i < wczytane; i++) {
+        cout << i + 1 << ". " << ksiazki[i].tytul << " (" << ksiazki[i].autor.nazwisko << ")" << endl;
+    }
+
     return 0;
 }

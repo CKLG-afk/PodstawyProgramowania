@@ -130,7 +130,7 @@ int Horner(int a[5])
 {
     int punkt_x;
     cout << "Na koniec znajdzmy wartosc na osi X wielomianu maksymalnie 4 "
-    "stopnia, okre�lonego wzorem: y(x) = a[0] + a[1]*x + a[2]*x^2 +...+ a[n]x^n" << endl <<
+    "stopnia, okreslonego wzorem: y(x) = a[0] + a[1]*x + a[2]*x^2 +...+ a[n]x^n" << endl <<
     "Wartosci podane sa przez uzytkownika" << endl << "Podaj wartosc punktu x: ";
     cin >> punkt_x;
     for (int i=0; i<5;i++)
